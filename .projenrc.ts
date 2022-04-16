@@ -8,7 +8,6 @@ const project = new cdk.JsiiProject({
   repositoryUrl: 'https://github.com/miekassu/projen-nextjs-ts-package.git',
   projenrcTs: true,
   description: 'Projen project type for NextJS TypeScript project.',
-  releaseToNpm: true,
   depsUpgrade: false,
   stale: false,
   npmDistTag: 'latest',
