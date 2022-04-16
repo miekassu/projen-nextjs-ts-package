@@ -2,7 +2,7 @@ import { cdk } from 'projen';
 
 const project = new cdk.JsiiProject({
   name: '@miekassu/projen-nextjs-ts-package',
-  author: 'Kasper H',
+  author: 'Kasper Hämäläinen',
   authorAddress: 'kasper.hamalainen@gmail.com',
   defaultReleaseBranch: 'main',
   repositoryUrl: 'https://github.com/miekassu/projen-nextjs-ts-package.git',
