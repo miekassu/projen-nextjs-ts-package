@@ -11,6 +11,8 @@ const project = new cdk.JsiiProject({
   releaseToNpm: true,
   depsUpgrade: false,
   stale: false,
+  npmDistTag: 'latest',
+  npmRegistryUrl: 'https://npm.pkh.github.com',
 
   deps: ['projen'],
   peerDeps: [
