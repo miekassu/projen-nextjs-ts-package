@@ -9,84 +9,9 @@ export interface NextJsCommonProjectOptions {
    */
   readonly assetsdir?: string;
 
-  /**
-   * Setup Tailwind CSS as a PostCSS plugin.
-   *
-   * @see https://tailwindcss.com/docs/installation
-   *
-   * @default true
-   * @featured
-   */
-  readonly tailwind?: boolean;
 }
 
 export interface NextJsTypeScriptProjectOptions extends NextJsCommonProjectOptions, typescript.TypeScriptProjectOptions {
-}
-
-export interface NextJsProjectOptions extends NextJsCommonProjectOptions, javascript.NodeProjectOptions {
-  /**
-   * Typescript sources directory.
-   *
-   * @default "src"
-   */
-  readonly srcdir?: string;
-
-  /**
-   * Generate one-time sample in `pages/` and `public/` if there are no files there.
-   * @default true
-   */
-  readonly sampleCode?: boolean;
-}
-
-/**
- * Next.js project without TypeScript.
- *
- * @pjid nextjs
- */
-export class NextJsProject extends javascript.NodeProject {
-  /**
-   * The directory in which source files reside.
-   */
-  public readonly srcdir: string;
-
-  /**
-   * The directory in which app assets reside.
-   */
-  public readonly assetsdir: string;
-
-  /**
-   * Setup Tailwind as a PostCSS plugin.
-   *
-   * @see https://tailwindcss.com/docs/installation
-   */
-  public readonly tailwind: boolean;
-
-  constructor(options: NextJsProjectOptions) {
-    super({
-      jest: false,
-      minNodeVersion: '12.13.0', // https://tailwindcss.com/docs/installation
-      ...options,
-    });
-
-    this.srcdir = options.srcdir ?? 'pages';
-    this.assetsdir = options.assetsdir ?? 'public';
-    this.tailwind = options.tailwind ?? true;
-
-    new NextComponent(this, {
-      typescript: false,
-      tailwind: this.tailwind,
-    });
-
-    // generate sample code in `pages` and `public` if these directories are empty or non-existent.
-    if (options.sampleCode ?? true) {
-      new NextSampleCode(this, {
-        fileExt: 'js',
-        srcdir: this.srcdir,
-        assetsdir: this.assetsdir,
-        tailwind: this.tailwind,
-      });
-    }
-  }
 }
 
 /**
@@ -105,18 +30,11 @@ export class NextJsTs extends web.NextJsTypeScriptProject {
    */
   public readonly assetsdir: string;
 
-  /**
-   * Setup Tailwind as a PostCSS plugin.
-   *
-   * @see https://tailwindcss.com/docs/installation
-   */
-  public readonly tailwind: boolean;
-
   constructor(options: NextJsTypeScriptProjectOptions) {
     const defaultOptions = {
-      srcdir: 'pages',
+      srcdir: '.',
       eslint: false,
-      minNodeVersion: '12.13.0', // https://tailwindcss.com/docs/installation
+      minNodeVersion: '14.17.0',
       jest: false,
       tsconfig: {
         include: [
@@ -152,16 +70,14 @@ export class NextJsTs extends web.NextJsTypeScriptProject {
     super(deepMerge([
       defaultOptions,
       options,
-      {sampleCode: false},
+      { sampleCode: false },
     ]) as typescript.TypeScriptProjectOptions);
 
-    this.srcdir = options.srcdir ?? 'pages';
+    this.srcdir = options.srcdir ?? '.';
     this.assetsdir = options.assetsdir ?? 'public';
-    this.tailwind = options.tailwind ?? true;
 
     new NextComponent(this, {
       typescript: true,
-      tailwind: this.tailwind,
     });
 
     // 'next build' command fails if tsconfig.json is immutable
@@ -175,7 +91,6 @@ export class NextJsTs extends web.NextJsTypeScriptProject {
         fileExt: 'tsx',
         srcdir: this.srcdir,
         assetsdir: this.assetsdir,
-        tailwind: this.tailwind,
       });
     }
   }
@@ -188,36 +103,23 @@ export interface NextComponentOptions {
    * @default false
    */
   readonly typescript?: boolean;
-
-  /**
-   * Setup Tailwind as a PostCSS plugin.
-   *
-   * @see https://tailwindcss.com/docs/installation
-   *
-   * @default true
-   */
-  readonly tailwind?: boolean;
 }
 
 export class NextComponent extends Component {
   private readonly typescript: boolean;
-  private readonly tailwind: boolean;
 
   constructor(project: javascript.NodeProject, options: NextComponentOptions) {
     super(project);
 
     this.typescript = options.typescript ?? false;
-    this.tailwind = options.tailwind ?? true;
 
     project.addDeps('next', 'react', 'react-dom');
     if (this.typescript) {
       project.addDevDeps('@types/react', '@types/react-dom');
     }
-    if (this.tailwind) {
-      new web.PostCss(project, {tailwind: true});
-    }
 
     // NextJS CLI commands, see: https://nextjs.org/docs/api-reference/cli
+    project.removeTask('dev');
     project.addTask('dev', {
       description: 'Starts the Next.js application in development mode',
       exec: 'next dev',
@@ -225,16 +127,19 @@ export class NextComponent extends Component {
 
     project.compileTask.exec('next build');
 
+    project.removeTask('export');
     project.addTask('export', {
       description: 'Exports the application for production deployment',
       exec: 'next export',
     });
 
+    project.removeTask('server');
     project.addTask('server', {
       description: 'Starts the Next.js application in production mode',
       exec: 'next start',
     });
 
+    project.removeTask('telemetry');
     project.addTask('telemetry', {
       description: 'Checks the status of Next.js telemetry collection',
       exec: 'next telemetry',
@@ -262,18 +167,12 @@ interface NextSampleCodeOptions {
    * The directory in which app assets reside.
    */
   readonly assetsdir: string;
-
-  /**
-   * Setup Tailwind as a PostCSS plugin.
-   */
-  readonly tailwind: boolean;
 }
 
 class NextSampleCode extends Component {
   private readonly fileExt: string;
   private readonly srcdir: string;
   private readonly assetsdir: string;
-  private readonly tailwind: boolean;
 
   constructor(project: javascript.NodeProject, options: NextSampleCodeOptions) {
     super(project);
@@ -281,7 +180,6 @@ class NextSampleCode extends Component {
     this.fileExt = options.fileExt ?? 'js';
     this.srcdir = options.srcdir;
     this.assetsdir = options.assetsdir;
-    this.tailwind = options.tailwind;
 
     const indexJs = [
       'import Head from "next/head"',
@@ -494,10 +392,6 @@ class NextSampleCode extends Component {
       '}',
       '',
     ];
-
-    if (this.tailwind) {
-      indexJs.unshift('import "tailwindcss/tailwind.css"');
-    }
 
     const vercelSvg = [
       '<svg width="283" height="64" viewBox="0 0 283 64" fill="none" ',
