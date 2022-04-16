@@ -1,4 +1,4 @@
-import { Component, javascript, SampleDir, SampleFile, typescript, web } from 'projen';
+import { Component, javascript, SampleDir, SampleFile, typescript } from 'projen';
 import { deepMerge } from 'projen/lib/util';
 
 export interface NextJsCommonProjectOptions {
@@ -8,7 +8,6 @@ export interface NextJsCommonProjectOptions {
    * @default "public"
    */
   readonly assetsdir?: string;
-
 }
 
 export interface NextJsTypeScriptProjectOptions extends NextJsCommonProjectOptions, typescript.TypeScriptProjectOptions {
@@ -19,12 +18,7 @@ export interface NextJsTypeScriptProjectOptions extends NextJsCommonProjectOptio
  *
  * @pjid nextjs-ts
  */
-export class NextJsTs extends web.NextJsTypeScriptProject {
-  /**
-   * The directory in which source files reside.
-   */
-  public readonly srcdir: string;
-
+export class NextJsTs extends typescript.TypeScriptAppProject {
   /**
    * The directory in which app assets reside.
    */
@@ -38,13 +32,17 @@ export class NextJsTs extends web.NextJsTypeScriptProject {
       jest: false,
       tsconfig: {
         include: [
+          'next-env.d.ts',
           '**/*.ts',
           '**/*.tsx',
+        ],
+        exclude: [
+          'node_modules'
         ],
         compilerOptions: {
           // required by Next.js
           esModuleInterop: true,
-          module: 'CommonJS',
+          module: 'esnext',
           moduleResolution: javascript.TypeScriptModuleResolution.NODE,
           isolatedModules: true,
           resolveJsonModule: true,
@@ -60,8 +58,9 @@ export class NextJsTs extends web.NextJsTypeScriptProject {
             'dom.iterable',
             'esnext',
           ],
-          strict: false,
+          strict: true,
           target: 'es5',
+          incremental: true
         },
       },
     };
@@ -73,7 +72,6 @@ export class NextJsTs extends web.NextJsTypeScriptProject {
       { sampleCode: false },
     ]) as typescript.TypeScriptProjectOptions);
 
-    this.srcdir = options.srcdir ?? '.';
     this.assetsdir = options.assetsdir ?? 'public';
 
     new NextComponent(this, {
@@ -88,8 +86,6 @@ export class NextJsTs extends web.NextJsTypeScriptProject {
     // generate sample code in `pages` and `public` if these directories are empty or non-existent.
     if (options.sampleCode ?? true) {
       new NextSampleCode(this, {
-        fileExt: 'tsx',
-        srcdir: this.srcdir,
         assetsdir: this.assetsdir,
       });
     }
@@ -152,18 +148,6 @@ export class NextComponent extends Component {
 
 interface NextSampleCodeOptions {
   /**
-   * File extension for sample javascript code to be saved as.
-   *
-   * @default "js"
-   */
-  readonly fileExt?: string;
-
-  /**
-   * The directory in which Next.js pages are declared.
-   */
-  readonly srcdir: string;
-
-  /**
    * The directory in which app assets reside.
    */
   readonly assetsdir: string;
@@ -171,14 +155,12 @@ interface NextSampleCodeOptions {
 
 class NextSampleCode extends Component {
   private readonly fileExt: string;
-  private readonly srcdir: string;
   private readonly assetsdir: string;
 
   constructor(project: javascript.NodeProject, options: NextSampleCodeOptions) {
     super(project);
 
-    this.fileExt = options.fileExt ?? 'js';
-    this.srcdir = options.srcdir;
+    this.fileExt = 'tsx';
     this.assetsdir = options.assetsdir;
 
     const indexJs = [
@@ -400,7 +382,7 @@ class NextSampleCode extends Component {
       '</svg>',
     ];
 
-    new SampleDir(project, this.srcdir, {
+    new SampleDir(project, 'pages', {
       files: {
         ['index.' + this.fileExt]: indexJs.join('\n'),
       },
@@ -415,11 +397,21 @@ class NextSampleCode extends Component {
     new SampleFile(project, 'next-env.d.ts', {
       contents: [
         '/// <reference types="next" />',
-        '/// <reference types="next/types/global" />',
         '/// <reference types="next/image-types/global" />',
         '// NOTE: This file should not be edited',
         '// see https://nextjs.org/docs/basic-features/typescript for more information.',
         '',
+      ].join('\n'),
+    });
+
+    new SampleFile(project, 'next.config.js', {
+      contents: [
+        '/** @type {import(\'next\').NextConfig} */',
+        'const nextConfig = {',
+        '  reactStrictMode: true,',
+        '}',
+        '',
+        'module.exports = nextConfig',
       ].join('\n'),
     });
   }
