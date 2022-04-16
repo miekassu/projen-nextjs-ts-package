@@ -17,7 +17,21 @@ const nextComponentOptions: NextComponentOptions = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
+| <code><a href="#@miekassu/projen-nextjs-ts-package.NextComponentOptions.property.lockReactVersion">lockReactVersion</a></code> | <code>boolean</code> | Lock React version to 17. |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextComponentOptions.property.typescript">typescript</a></code> | <code>boolean</code> | Whether to apply options specific for TypeScript Next.js projects. |
+
+---
+
+##### `lockReactVersion`<sup>Optional</sup> <a name="lockReactVersion" id="@miekassu/projen-nextjs-ts-package.NextComponentOptions.property.lockReactVersion"></a>
+
+```typescript
+public readonly lockReactVersion: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Lock React version to 17.
 
 ---
 
