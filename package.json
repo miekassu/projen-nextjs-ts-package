@@ -61,7 +61,7 @@
   "main": "lib/index.js",
   "license": "Apache-2.0",
   "publishConfig": {
-    "registry": "https://npm.pkh.github.com/"
+    "registry": "https://registry.npmjs.com/"
   },
   "version": "0.0.0",
   "jest": {

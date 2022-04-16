@@ -12,7 +12,7 @@ const project = new cdk.JsiiProject({
   depsUpgrade: false,
   stale: false,
   npmDistTag: 'latest',
-  npmRegistryUrl: 'https://npm.pkh.github.com',
+  npmRegistryUrl: 'https://registry.npmjs.com/',
 
   deps: [],
   devDeps: ['projen'],
