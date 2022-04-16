@@ -37,7 +37,7 @@ export class NextJsTs extends typescript.TypeScriptAppProject {
           '**/*.tsx',
         ],
         exclude: [
-          'node_modules'
+          'node_modules',
         ],
         compilerOptions: {
           // required by Next.js
@@ -60,7 +60,7 @@ export class NextJsTs extends typescript.TypeScriptAppProject {
           ],
           strict: true,
           target: 'es5',
-          incremental: true
+          incremental: true,
         },
       },
     };

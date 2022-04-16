@@ -2702,7 +2702,7 @@ The command to execute.
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.upgradeWorkflow">upgradeWorkflow</a></code> | <code>projen.javascript.UpgradeDependencies</code> | The upgrade workflow. |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.docsDirectory">docsDirectory</a></code> | <code>string</code> | *No description.* |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.libdir">libdir</a></code> | <code>string</code> | The directory in which compiled .js files reside. |
-| <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.srcdir">srcdir</a></code> | <code>string</code> | The directory in which source files reside. |
+| <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.srcdir">srcdir</a></code> | <code>string</code> | The directory in which the .ts sources reside. |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.testdir">testdir</a></code> | <code>string</code> | The directory in which tests reside. |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.tsconfigDev">tsconfigDev</a></code> | <code>projen.javascript.TypescriptConfig</code> | A typescript configuration file which covers all files (sources, tests, projen). |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.watchTask">watchTask</a></code> | <code>projen.Task</code> | The "watch" task. |
@@ -2711,7 +2711,6 @@ The command to execute.
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.tsconfig">tsconfig</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.tsconfigEslint">tsconfigEslint</a></code> | <code>projen.javascript.TypescriptConfig</code> | *No description.* |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.assetsdir">assetsdir</a></code> | <code>string</code> | The directory in which app assets reside. |
-| <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTs.property.tailwind">tailwind</a></code> | <code>boolean</code> | Setup Tailwind as a PostCSS plugin. |
 
 ---
 
@@ -3333,7 +3332,7 @@ public readonly srcdir: string;
 
 - *Type:* string
 
-The directory in which source files reside.
+The directory in which the .ts sources reside.
 
 ---
 
@@ -3422,20 +3421,6 @@ public readonly assetsdir: string;
 - *Type:* string
 
 The directory in which app assets reside.
-
----
-
-##### `tailwind`<sup>Required</sup> <a name="tailwind" id="@miekassu/projen-nextjs-ts-package.NextJsTs.property.tailwind"></a>
-
-```typescript
-public readonly tailwind: boolean;
-```
-
-- *Type:* boolean
-
-Setup Tailwind as a PostCSS plugin.
-
-> [https://tailwindcss.com/docs/installation](https://tailwindcss.com/docs/installation)
 
 ---
 
