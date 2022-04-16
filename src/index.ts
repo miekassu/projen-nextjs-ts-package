@@ -99,20 +99,32 @@ export interface NextComponentOptions {
    * @default false
    */
   readonly typescript?: boolean;
+
+  /**
+   * Lock React version to 17
+   *
+   * @default true
+   */
+  readonly lockReactVersion?: boolean;
 }
 
 export class NextComponent extends Component {
-  private readonly typescript: boolean;
+  private readonly lockReactVersion: boolean;
 
   constructor(project: javascript.NodeProject, options: NextComponentOptions) {
     super(project);
 
-    this.typescript = options.typescript ?? false;
+    this.lockReactVersion = options.lockReactVersion ?? true;
 
-    project.addDeps('next', 'react', 'react-dom');
-    if (this.typescript) {
+    if (this.lockReactVersion === false) {
+      project.addDeps('next', 'react', 'react-dom');
       project.addDevDeps('@types/react', '@types/react-dom');
+    } else {
+      project.addDeps('next@12.1.0', 'react@17.0.2', 'react-dom@17.0.2');
+      project.addDevDeps('@types/react@17.0.40', '@types/react-dom@17.0.13');
     }
+
+
 
     // NextJS CLI commands, see: https://nextjs.org/docs/api-reference/cli
     project.removeTask('dev');
