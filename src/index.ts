@@ -125,7 +125,6 @@ export class NextComponent extends Component {
     }
 
 
-
     // NextJS CLI commands, see: https://nextjs.org/docs/api-reference/cli
     project.removeTask('dev');
     project.addTask('dev', {
