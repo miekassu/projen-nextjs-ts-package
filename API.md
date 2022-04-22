@@ -221,6 +221,7 @@ const nextJsTypeScriptProjectOptions: NextJsTypeScriptProjectOptions = { ... }
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTypeScriptProjectOptions.property.tsconfigDev">tsconfigDev</a></code> | <code>projen.javascript.TypescriptConfigOptions</code> | Custom tsconfig options for the development tsconfig.json file (used for testing). |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTypeScriptProjectOptions.property.tsconfigDevFile">tsconfigDevFile</a></code> | <code>string</code> | The name of the development tsconfig.json file. |
 | <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTypeScriptProjectOptions.property.typescriptVersion">typescriptVersion</a></code> | <code>string</code> | TypeScript version to use. |
+| <code><a href="#@miekassu/projen-nextjs-ts-package.NextJsTypeScriptProjectOptions.property.lockReactVersion">lockReactVersion</a></code> | <code>boolean</code> | Lock React version to 17.0.2. |
 
 ---
 
@@ -2038,6 +2039,20 @@ TypeScript version to use.
 
 NOTE: Typescript is not semantically versioned and should remain on the
 same minor, so we recommend using a `~` dependency (e.g. `~1.2.3`).
+
+---
+
+##### `lockReactVersion`<sup>Optional</sup> <a name="lockReactVersion" id="@miekassu/projen-nextjs-ts-package.NextJsTypeScriptProjectOptions.property.lockReactVersion"></a>
+
+```typescript
+public readonly lockReactVersion: boolean;
+```
+
+- *Type:* boolean
+
+Lock React version to 17.0.2.
+
+Handy due to the on-going issue where child package peer-dependency resolves wrong @types/react
 
 ---
 

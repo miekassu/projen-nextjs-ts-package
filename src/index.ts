@@ -11,7 +11,14 @@ export interface NextJsCommonProjectOptions {
 }
 
 export interface NextJsTypeScriptProjectOptions extends NextJsCommonProjectOptions, typescript.TypeScriptProjectOptions {
-  lockReactVersion?: boolean;
+  /**
+   * Lock React version to 17.0.2
+   *
+   * Handy due to the on-going issue where child package peer-dependency resolves wrong @types/react
+   *
+   * default: true
+   */
+  readonly lockReactVersion?: boolean;
 }
 
 /**
