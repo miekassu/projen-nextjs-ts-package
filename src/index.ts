@@ -11,6 +11,7 @@ export interface NextJsCommonProjectOptions {
 }
 
 export interface NextJsTypeScriptProjectOptions extends NextJsCommonProjectOptions, typescript.TypeScriptProjectOptions {
+  lockReactVersion?: boolean
 }
 
 /**
@@ -76,6 +77,7 @@ export class NextJsTs extends typescript.TypeScriptAppProject {
 
     new NextComponent(this, {
       typescript: true,
+      lockReactVersion: options.lockReactVersion
     });
 
     // 'next build' command fails if tsconfig.json is immutable
