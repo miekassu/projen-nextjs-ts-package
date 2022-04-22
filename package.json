@@ -49,7 +49,7 @@
     "jsii-docgen": "^6.3.11",
     "jsii-pacmak": "^1.56.0",
     "json-schema": "^0.4.0",
-    "projen": "^0.54.28",
+    "projen": "0.54.28",
     "standard-version": "^9",
     "ts-jest": "^27.1.4",
     "ts-node": "^9",
@@ -63,7 +63,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.com/"
   },
-  "version": "0.0.7",
+  "version": "0.0.8",
   "jest": {
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",

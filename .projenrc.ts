@@ -12,9 +12,10 @@ const project = new cdk.JsiiProject({
   stale: false,
   npmDistTag: 'latest',
   npmRegistryUrl: 'https://registry.npmjs.com/',
+  projenVersion: '0.54.28',
 
   deps: [],
-  devDeps: ['projen'],
+  devDeps: ['projen@0.54.28'],
   peerDeps: [
     'projen',
   ],
